@@ -169,6 +169,7 @@ ol {
   font-weight: 700;
   background: #7fad39;
   letter-spacing: 2px;
+  border-radius: 10px;
 }
 
 .site-btn {
@@ -180,6 +181,7 @@ ol {
   padding: 13px 30px 12px;
   background: #7fad39;
   border: none;
+  border-radius: 10px;
 }
 
 /* Preloder */
@@ -3269,7 +3271,6 @@ ol {
 }
 
 /* Wide Mobile = 480px */
-
 @media only screen and (max-width: 767px) {
   .hero__categories {
     margin-bottom: 30px;
