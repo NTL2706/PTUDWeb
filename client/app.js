@@ -28,7 +28,7 @@ const router = require("./routes/index");
 
 
 //todo cac luong thu thi
-// router(app);
+router(app);
 
 //todo server listen
 if (PORT == null || PORT == "") {
