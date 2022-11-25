@@ -1,0 +1,197 @@
+{{>header home="home"}}
+{{>hero-home category=category}}
+<!-- Categories Section Begin -->
+<section class="categories">
+  <div class="container">
+    <div class="row">
+      <div class="categories__slider owl-carousel">
+        {{#each category}}
+        <div class="col-lg-3">
+          <div class="categories__item set-bg" data-setbg="{{this.image}}">
+            <h5><a href="/shop-grid/{{this.idCategory}}">{{this.name}}</a></h5>
+          </div>
+        </div>
+        {{/each}}
+        
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Categories Section End -->
+
+<!-- Featured Section Begin -->
+<section class="featured spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title">
+          <h2>Sản Phẩm Nổi Bật</h2>
+        </div>
+        <div class="featured__controls">
+          <ul>
+            <li class="active" data-filter="*">Tất cả</li>
+            {{#each categoryData}}
+            <li data-filter=".{{this.idCategory}}">{{this.name}}</li>
+            {{/each}}
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row featured__filter">
+      {{#each categoryData}}
+      {{#each this.listProduct}}
+      <div class="col-lg-3 col-md-4 col-sm-6 mix {{../this.idCategory}}">
+        <div class="featured__item">
+          <div class="featured__item__pic set-bg" data-setbg="{{this.image}}">
+            <ul class="featured__item__pic__hover">
+
+              <li>
+                <a id="addCart-{{this.idProduct}}" onclick="addShoppingCart('{{this.idProduct}}')"
+                  value="{{this.idProduct}}" data-toggle="modal" data-target="#notification">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="featured__item__text">
+            <h6><a href="/shop-grid/{{this.url}}">{{this.name}}</a></h6>
+            <h5>{{format this.price}}</h5>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      {{/each}}
+
+    </div>
+  </div>
+</section>
+<!-- Featured Section End -->
+
+<!-- Banner Begin -->
+<div class="banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="banner__pic">
+          <a href="/shop-grid/rau-cu-trai-cay-1640506692243"> <img src="/img/banner/banner_1.png" alt="" /> </a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="banner__pic">
+          <a href="/shop-grid/do-uong-cac-loai-1640506702509"> <img src="/img/banner/banner_2.png" alt="" /> </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Blog Section Begin -->
+<section class="from-blog spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title from-blog__title">
+          <h2>Bài viết</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="blog__item">
+          <div class="blog__item__pic">
+            <img src="/img/blog/blog-1.jpg" alt="" />
+          </div>
+          <div class="blog__item__text">
+            <ul>
+              <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+              <li><i class="fa fa-comment-o"></i> 5</li>
+            </ul>
+            <h5><a href="#">Mẹo nấu ăn đơn giản</a></h5>
+            <p>Sed quia non numquam modi tempora indunt ut labore et dolore
+              magnam aliquam quaerat
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="blog__item">
+          <div class="blog__item__pic">
+            <img src="/img/blog/blog-2.jpg" alt="" />
+          </div>
+          <div class="blog__item__text">
+            <ul>
+              <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+              <li><i class="fa fa-comment-o"></i> 5</li>
+            </ul>
+            <h5><a href="#">6 cách chuẩn bị bữa sáng trong 30 phút</a></h5>
+            <p>Sed quia non numquam modi tempora indunt ut labore et dolore
+              magnam aliquam quaerat
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="blog__item">
+          <div class="blog__item__pic">
+            <img src="/img/blog/blog-3.jpg" alt="" />
+          </div>
+          <div class="blog__item__text">
+            <ul>
+              <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+              <li><i class="fa fa-comment-o"></i> 5</li>
+            </ul>
+            <h5><a href="#">Tham quan trang trại sạch ở Ba Vì</a></h5>
+            <p>Sed quia non numquam modi tempora indunt ut labore et dolore
+              magnam aliquam quaerat
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="notification" tabindex="-1" role="dialog" aria-labelledby="notification-label"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="notification-label">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Đã thêm 1 sản phẩm vào giỏ hàng
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Blog Section End -->
+
+{{#section 'script'}}
+<script>
+  function addShoppingCart(idProduct) {
+    let numProductOder = 1;
+
+    $.ajax({
+      url: `/api/shoppingCart/addShoppingCart`,
+      method: 'POST',
+      data: {
+        idProduct,
+        numProductOder,
+      },
+      success: function (idProduct) {
+        console.log("xong");
+        $('#exampleModal').trigger('focus')
+      }
+    })
+  }
+</script>
+{{/section}}
