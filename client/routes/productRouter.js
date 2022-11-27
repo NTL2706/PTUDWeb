@@ -1,9 +1,8 @@
-// const express = require("express");
-// const router = express.Router();
+const router = require("express").Router();
 
-// const product_controller = require("");
+const product_controller = require("../controllers/productController");
 
-// router.get("/",loginController.loginGET);
+router.get("/",product_controller.getProduct);
 // router.post("/", loginController.loginPOST);
 
-// module.exports = router;
+module.exports = router;

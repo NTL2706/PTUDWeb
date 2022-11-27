@@ -133,11 +133,11 @@ sup {
   top: -.5em; }
 
 a {
-  color: #007bff;
+  color: #0056b3;
   text-decoration: none;
   background-color: transparent; }
   a:hover {
-    color: #0056b3;
+    color: #99ffcc;
     text-decoration: underline; }
 
 a:not([href]):not([tabindex]) {
@@ -8138,13 +8138,23 @@ body {
   line-height: 1.8;
   font-weight: normal;
   background: #f8f9fd;
-  color: gray; }
+  color: gray; opacity: 0;
+
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;}
+
+body:hover {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+}
 
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
-  color: #a0c334; }
+  color: #00cc66; }
   a:hover, a:focus {
     text-decoration: none !important;
     outline: none !important;
@@ -8199,7 +8209,7 @@ h1, h2, h3, h4, h5,
     bottom: 0;
     width: 48px;
     height: 48px;
-    background: #a0c334;
+    background: #00cc66;
     font-size: 20px;
     border-radius: 5px 0 0 5px; }
     .form-group .icon span {
@@ -8306,8 +8316,8 @@ h1, h2, h3, h4, h5,
   .btn:hover, .btn:active, .btn:focus {
     outline: none; }
   .btn.btn-primary {
-    background: #a0c334 !important;
-    border: 1px solid #a0c334 !important;
+    background: #00cc66 !important;
+    border: 1px solid #99ff33 !important;
     color: #fff !important; }
     .btn.btn-primary:hover {
       border: 1px solid #a0c334;

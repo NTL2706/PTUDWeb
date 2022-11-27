@@ -106,6 +106,12 @@ const router = require("./routes/index");
 //todo cac luong thu thi
 router(app);
 
+
+//todo render error
+app.use((req, res) => {
+    res.render("errors/404", { layout: false });
+});
+
 //todo server listen
 if (PORT == null || PORT == "") {
     PORT = 3000;
