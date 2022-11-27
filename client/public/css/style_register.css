@@ -21,6 +21,7 @@ list-type-ulli {
   src: url("../fonts/montserrat/Montserrat-Light.ttf");
   /* IE9 Compat Modes */
 }
+
 @font-face {
   font-family: "Montserrat";
   font-style: normal;
@@ -28,6 +29,7 @@ list-type-ulli {
   src: url("../fonts/montserrat/Montserrat-Regular.ttf");
   /* IE9 Compat Modes */
 }
+
 @font-face {
   font-family: "Montserrat";
   font-style: italic;
@@ -35,6 +37,7 @@ list-type-ulli {
   src: url("../fonts/montserrat/Montserrat-Italic.ttf");
   /* IE9 Compat Modes */
 }
+
 @font-face {
   font-family: "Montserrat";
   font-style: normal;
@@ -42,6 +45,7 @@ list-type-ulli {
   src: url("../fonts/montserrat/Montserrat-Medium.ttf");
   /* IE9 Compat Modes */
 }
+
 @font-face {
   font-family: "Montserrat";
   font-style: normal;
@@ -49,6 +53,7 @@ list-type-ulli {
   src: url("../fonts/montserrat/Montserrat-SemiBold.ttf");
   /* IE9 Compat Modes */
 }
+
 @font-face {
   font-family: "Montserrat";
   font-style: normal;
@@ -56,6 +61,7 @@ list-type-ulli {
   src: url("../fonts/montserrat/Montserrat-Bold.ttf");
   /* IE9 Compat Modes */
 }
+
 @font-face {
   font-family: "Montserrat";
   font-style: italic;
@@ -63,17 +69,18 @@ list-type-ulli {
   src: url("../fonts/montserrat/Montserrat-BoldItalic.ttf");
   /* IE9 Compat Modes */
 }
+
 @font-face {
   font-family: "Montserrat";
   font-style: italic;
   font-weight: 900;
   src: url("../fonts/montserrat/montserrat-v12-latin-900.ttf"),
-    url("../fonts/montserrat/montserrat-v12-latin-900.eot")
-      format("embedded-opentype"),
+    url("../fonts/montserrat/montserrat-v12-latin-900.eot") format("embedded-opentype"),
     url("../fonts/montserrat/montserrat-v12-latin-900.svg") format("woff2"),
     url("../fonts/montserrat/montserrat-v12-latin-900.woff") format("woff"),
     url("../fonts/montserrat/montserrat-v12-latin-900.woff2") format("truetype");
 }
+
 a:focus,
 a:active {
   text-decoration: none;
@@ -171,7 +178,7 @@ body {
   color: #222;
   font-weight: 400;
   font-family: "Montserrat";
-  background-image: url("../img/background/greenery-product-background_53876-90824.jpg");
+  background-image: url("../img/background/greenery-product-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   -moz-background-size: cover;
@@ -180,6 +187,18 @@ body {
   -ms-background-size: cover;
   background-position: center center;
   padding: 115px 0;
+
+  opacity: 0;
+
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+}
+
+body:hover {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
 }
 
 .container {
@@ -254,37 +273,44 @@ body {
   font-weight: 500;
   color: #222;
 }
+
 .form-input::-webkit-input-placeholder {
   color: #999;
 }
+
 .form-input::-moz-placeholder {
   color: #999;
 }
+
 .form-input:-ms-input-placeholder {
   color: #999;
 }
+
 .form-input:-moz-placeholder {
   color: #999;
 }
+
 .form-input::-webkit-input-placeholder {
   font-weight: 500;
 }
+
 .form-input::-moz-placeholder {
   font-weight: 500;
 }
+
 .form-input:-ms-input-placeholder {
   font-weight: 500;
 }
+
 .form-input:-moz-placeholder {
   font-weight: 500;
 }
+
 .form-input:focus {
   border: 1px solid transparent;
-  -webkit-border-image-source: -webkit-linear-gradient(
-    to right,
-    #9face6,
-    #74ebd5
-  );
+  -webkit-border-image-source: -webkit-linear-gradient(to right,
+      #9face6,
+      #74ebd5);
   -moz-border-image-source: -moz-linear-gradient(to right, #9face6, #74ebd5);
   -o-border-image-source: -o-linear-gradient(to right, #9face6, #74ebd5);
   border-image-source: linear-gradient(to right, #9face6, #74ebd5);
@@ -298,15 +324,19 @@ body {
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
+
 .form-input:focus::-webkit-input-placeholder {
   color: #222;
 }
+
 .form-input:focus::-moz-placeholder {
   color: #222;
 }
+
 .form-input:focus:-ms-input-placeholder {
   color: #222;
 }
+
 .form-input:focus:-moz-placeholder {
   color: #222;
 }
@@ -325,11 +355,11 @@ body {
   color: #fff;
   text-transform: uppercase;
   border: none;
-  background-image: -moz-linear-gradient(to left, #74ebd5, #9face6);
-  background-image: -ms-linear-gradient(to left, #74ebd5, #9face6);
-  background-image: -o-linear-gradient(to left, #74ebd5, #9face6);
-  background-image: -webkit-linear-gradient(to left, #74ebd5, #9face6);
-  background-image: linear-gradient(to left, #74ebd5, #9face6);
+  background-image: -moz-linear-gradient(to left, #66ffcc, #66ff66);
+  background-image: -ms-linear-gradient(to left, #66ffcc, #66ff66);
+  background-image: -o-linear-gradient(to left, #66ffcc, #66ff66);
+  background-image: -webkit-linear-gradient(to left, #66ffcc, #66ff66);
+  background-image: linear-gradient(to left, #66ffcc, #66ff66);
 }
 
 input[type="checkbox"]:not(old) {
@@ -340,13 +370,13 @@ input[type="checkbox"]:not(old) {
   display: none;
 }
 
-input[type="checkbox"]:not(old) + label {
+input[type="checkbox"]:not(old)+label {
   display: inline-block;
   margin-top: 7px;
   margin-bottom: 25px;
 }
 
-input[type="checkbox"]:not(old) + label > span {
+input[type="checkbox"]:not(old)+label>span {
   display: inline-block;
   width: 13px;
   height: 13px;
@@ -367,7 +397,7 @@ input[type="checkbox"]:not(old) + label > span {
   vertical-align: bottom;
 }
 
-input[type="checkbox"]:not(old):checked + label > span {
+input[type="checkbox"]:not(old):checked+label>span {
   background-image: -moz-linear-gradient(white, white);
   background-image: -ms-linear-gradient(white, white);
   background-image: -o-linear-gradient(white, white);
@@ -375,7 +405,7 @@ input[type="checkbox"]:not(old):checked + label > span {
   background-image: linear-gradient(white, white);
 }
 
-input[type="checkbox"]:not(old):checked + label > span:before {
+input[type="checkbox"]:not(old):checked+label>span:before {
   content: "\f26b";
   display: block;
   color: #222;
@@ -424,6 +454,7 @@ input[type="checkbox"]:not(old):checked + label > span:before {
     max-width: 100%;
   }
 }
+
 @media screen and (max-width: 480px) {
   .signup-content {
     padding: 50px 25px;
