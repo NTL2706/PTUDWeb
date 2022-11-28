@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 
 //todo server listen
 if (PORT == null || PORT == "") {
-    PORT = 3000;
+    PORT = 5000;
 }
 
 app.listen(PORT, function () {
