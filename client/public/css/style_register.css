@@ -75,7 +75,8 @@ list-type-ulli {
   font-style: italic;
   font-weight: 900;
   src: url("../fonts/montserrat/montserrat-v12-latin-900.ttf"),
-    url("../fonts/montserrat/montserrat-v12-latin-900.eot") format("embedded-opentype"),
+    url("../fonts/montserrat/montserrat-v12-latin-900.eot")
+      format("embedded-opentype"),
     url("../fonts/montserrat/montserrat-v12-latin-900.svg") format("woff2"),
     url("../fonts/montserrat/montserrat-v12-latin-900.woff") format("woff"),
     url("../fonts/montserrat/montserrat-v12-latin-900.woff2") format("truetype");
@@ -187,19 +188,8 @@ body {
   -ms-background-size: cover;
   background-position: center center;
   padding: 115px 0;
-
-  opacity: 0;
-
-  -webkit-transition: opacity 0.5s ease-in-out;
-  -moz-transition: opacity 0.5s ease-in-out;
-  transition: opacity 0.5s ease-in-out;
 }
 
-body:hover {
-  position: relative;
-  opacity: 1;
-  visibility: visible;
-}
 
 .container {
   width: 660px;
@@ -252,6 +242,16 @@ body:hover {
   -o-border-radius: 10px;
   -ms-border-radius: 10px;
   padding: 50px 85px;
+
+  opacity: 0;
+  transition: opacity .7s ease-out;
+  -moz-transition: opacity .7s ease-out;
+  -webkit-transition: opacity .7s ease-out;
+  -o-transition: opacity .7s ease-out;
+}
+
+.signup-content:hover{
+  opacity: 1;
 }
 
 .form-group {
@@ -308,9 +308,11 @@ body:hover {
 
 .form-input:focus {
   border: 1px solid transparent;
-  -webkit-border-image-source: -webkit-linear-gradient(to right,
-      #9face6,
-      #74ebd5);
+  -webkit-border-image-source: -webkit-linear-gradient(
+    to right,
+    #9face6,
+    #74ebd5
+  );
   -moz-border-image-source: -moz-linear-gradient(to right, #9face6, #74ebd5);
   -o-border-image-source: -o-linear-gradient(to right, #9face6, #74ebd5);
   border-image-source: linear-gradient(to right, #9face6, #74ebd5);
@@ -370,13 +372,13 @@ input[type="checkbox"]:not(old) {
   display: none;
 }
 
-input[type="checkbox"]:not(old)+label {
+input[type="checkbox"]:not(old) + label {
   display: inline-block;
   margin-top: 7px;
   margin-bottom: 25px;
 }
 
-input[type="checkbox"]:not(old)+label>span {
+input[type="checkbox"]:not(old) + label > span {
   display: inline-block;
   width: 13px;
   height: 13px;
@@ -397,7 +399,7 @@ input[type="checkbox"]:not(old)+label>span {
   vertical-align: bottom;
 }
 
-input[type="checkbox"]:not(old):checked+label>span {
+input[type="checkbox"]:not(old):checked + label > span {
   background-image: -moz-linear-gradient(white, white);
   background-image: -ms-linear-gradient(white, white);
   background-image: -o-linear-gradient(white, white);
@@ -405,7 +407,7 @@ input[type="checkbox"]:not(old):checked+label>span {
   background-image: linear-gradient(white, white);
 }
 
-input[type="checkbox"]:not(old):checked+label>span:before {
+input[type="checkbox"]:not(old):checked + label > span:before {
   content: "\f26b";
   display: block;
   color: #222;
