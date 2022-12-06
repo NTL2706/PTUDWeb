@@ -9,6 +9,8 @@ async function getAllProduct(req, res) {
   if (req.param("page") == null) {
     page = 1;
   }
+  console.log("hello");
+  console.log(page);
 
   const products = await Product.find({})
     .skip(perPage * (page - 1))
@@ -19,17 +21,17 @@ async function getAllProduct(req, res) {
 
   const categories = await Category.find({});
   const leftPage = await utilsPagination.getLeftPage(
-    "/shop-grid",
+    "/category",
     page,
     sizePage
   );
   const pagination = await utilsPagination.getPagination(
-    "/shop-grid",
+    "/category",
     page,
     sizePage
   );
   const rightPage = await utilsPagination.getRightPage(
-    "/shop-grid",
+    "/category",
     page,
     sizePage
   );
@@ -66,22 +68,22 @@ async function getbyCategory(req, res) {
     .skip(perPage * (page - 1))
     .limit(perPage);
 
-  const size = await Product.count({});
+  const size = await Product.count({"category": name_Category.name});
   const sizePage = Math.max(parseInt(size / perPage + 1));
 
   const categories = await Category.find({});
   const leftPage = await utilsPagination.getLeftPage(
-    "/shop-grid",
+    "/category/" + idCategory,
     page,
     sizePage
   );
   const pagination = await utilsPagination.getPagination(
-    "/shop-grid",
+    "/category/" + idCategory,
     page,
     sizePage
   );
   const rightPage = await utilsPagination.getRightPage(
-    "/shop-grid",
+    "/category/" + idCategory,
     page,
     sizePage
   );
