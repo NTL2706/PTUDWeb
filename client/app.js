@@ -4,10 +4,10 @@ const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 const expressHandlebarsSections = require("express-handlebars-sections");
 const path = require("path");
-
 // todo cau hinh server
 let PORT = process.env.PORT;
 const app = express();
+
 
 //todo server use
 const hbs = exphbs.create({
@@ -93,13 +93,20 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.json());
 
+
+app.use(
+    express.urlencoded({
+        extended: true,
+    })
+);
+
 const router = require("./routes/index");
 
 // //todo cau hinh cua db
-// const db = require("./config/db/index");
+const db = require("./middleware/database");
 
 //todo database
-
+db.connectMongoose();
 
 
 
