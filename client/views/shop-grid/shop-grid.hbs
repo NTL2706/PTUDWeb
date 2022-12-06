@@ -28,14 +28,14 @@
                         <h4>Phân loại</h4>
                         <ul>
                             {{#each category}}
-                            <li><a href="/shop-grid/{{this.idCategory}}">{{this.name}}</a></li>
+                            <li><a href="/category/{{this.idCategory}}">{{this.name}}</a></li>
                             {{/each}}
                         </ul>
                     </div>
                     <div class="sidebar__item">
                         <h4>Giá</h4>
 
-                        <form id="slider-search-form" action="/shop-grid/search" method="GET">
+                        <form id="slider-search-form" action="/category/search" method="GET">
                             <div class="price-range-wrap">
                                 <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
                                     data-min="0" data-max="500000">
@@ -70,7 +70,7 @@
                                 <div class="latest-prdouct__slider__item">
 
                                     {{#each latestProducts }}
-                                    <a href="/shop-grid/{{this.url}}" class="latest-product__item">
+                                    <a href="/category/{{this.url}}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img style="width: 110px;" src="{{this.image}}" alt="">
                                         </div>
@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="latest-prdouct__slider__item">
                                     {{#each latestProducts }}
-                                    <a href="/shop-grid/{{this.url}}" class="latest-product__item">
+                                    <a href="/category/{{this.url}}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img style="width: 110px;" src="{{this.image}}" alt="">
                                         </div>
@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="product__discount__item__text">
                                         <span>{{this.category}}</span>
-                                        <h5><a href="/shop-grid/{{this.url}}">{{this.name}}</a></h5>
+                                        <h5><a href="/category/{{this.url}}">{{this.name}}</a></h5>
                                         <div class="product__item__price">{{format this.price}}
                                             <span>
                                                 {{ format (math this.price "*" 1.2)}}
@@ -169,7 +169,7 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="/shop-grid/{{this.url}}">{{this.name}}</a></h6>
+                                    <h6><a href="/category/{{this.url}}">{{this.name}}</a></h6>
                                     <h5 id="price-{{@index}}">{{format this.price}}</h5>
                                 </div>
                             </div>
@@ -184,28 +184,7 @@
                         <a href="{{this.paginationLink}}"><i class="fas fa-long-arrow-alt-left"></i></a>
                         {{/if}}
                         {{/each}}
-                        {{!-- {{#pageIf currentPage '==' 1}}
-                        <a href="/shop-grid?page=1"><i class="fa fa-long-arrow-left"></i></a>
-                        {{else}}
-                        <a href="/shop-grid?page={{leftPage this}}"><i class="fa fa-long-arrow-left"></i></a>
-                        {{/pageIf}}
-
-                        {{#pageIf currentPage '==' 1}}
-                        <a href="/shop-grid?page=1"
-                            style="background: #7fad39; border-color: #7fad39; color: #ffffff;">1</a>
-                        <a href="/shop-grid?page=2">2</a>
-                        <a href="/shop-grid?page=3">3</a>
-                        {{else}}
-                        <a href="/shop-grid?page={{leftPage this}}">{{leftPage this}}</a>
-                        <a href="/shop-grid?page={{ this}}"
-                            style="background: #7fad39; border-color: #7fad39; color: #ffffff;">{{ this}}</a>
-                        <a href="/shop-grid?page={{rightPage this}}">{{rightPage this}}</a>
-                        {{/pageIf}}
-
-                        {{#currentPage currentPage}}
-                        <a href="/shop-grid/?page={{rightPage this}}"><i class="fas fa-long-arrow-alt-right"></i></a>
-                        {{/currentPage }} --}}
-
+                        
 
                         {{#each pagination}}
                         <a class="{{#if this.flag}} active {{/if}}"
