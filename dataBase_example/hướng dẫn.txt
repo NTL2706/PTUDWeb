@@ -1,0 +1,4 @@
+Người dùng muốn chuyển dữ liệu thì chạy:
+	- Mở cmd vào thư mục "dataBase_example"
+	- Chạy dòng lệnh "mongorestore.exe -d VegatableShop VegatableShop"
+Lưu ý: trước khi chạy thì phải cài đặt mongorestore link: https://www.mongodb.com/docs/database-tools/mongorestore/
