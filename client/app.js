@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 const expressHandlebarsSections = require("express-handlebars-sections");
 const path = require("path");
+const numeral = require("numeral");
 // todo cau hinh server
 let PORT = process.env.PORT;
 const app = express();
