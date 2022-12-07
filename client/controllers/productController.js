@@ -61,14 +61,15 @@ async function getbyCategory(req, res) {
   console.log("hello");
   let idCategory = req.param("idCategory");
   console.log(idCategory);
-  let name_Category = await Category.findOne({"idCategory": idCategory});
-  
+  let name_Category = await Category.findOne({ "idCategory": idCategory });
+
   const products = await Product.find({
-    "category": name_Category.name})
+    "category": name_Category.name
+  })
     .skip(perPage * (page - 1))
     .limit(perPage);
 
-  const size = await Product.count({"category": name_Category.name});
+  const size = await Product.count({ "category": name_Category.name });
   const sizePage = Math.max(parseInt(size / perPage + 1));
 
   const categories = await Category.find({});
@@ -103,6 +104,128 @@ async function getbyCategory(req, res) {
   });
 }
 
+//Get /search?name= &minPrice= &maxPrice=
+async function getProductBySearch(req, res) {
+  let products = null;
+  let name = req.query.name;
+  let flag = false;
+  let minPrice = 0;
+  let maxPrice = 0;
+  let size = 0;
+  let leftPage = 0;
+  let pagination = 0;
+  let rightPage = 0;
+  let sizePage = 0;
+
+  let perPage = 6,
+    page = Math.max(parseInt(req.query["page"]) || 1, 1);
+  if (req.query["page"] == null) {
+    page = 1;
+  }
+
+  if (req.query.minPrice && req.query.maxPrice) {
+    flag = true;
+    minPrice = req.query.minPrice;
+    maxPrice = req.query.maxPrice;
+  }
+
+  if (flag) {
+    products = await Product.find({
+      "name": { $regex: name, $options: "i" }, "price": { $gte: minPrice, $lte: maxPrice },
+    })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
+
+    size = await Product.count({
+      "name": { $regex: name, $options: "i" },
+      "price": { $gte: minPrice, $lte: maxPrice },
+    });
+    sizePage = Math.max(parseInt(size / perPage + 1));
+
+    leftPage = await utilsPagination.getLeftPageSearch(
+      "category/search?name=" +
+      req.query.name +
+      "&minPrice=" +
+      req.query.minPrice +
+      "&maxPrice=" +
+      req.query.maxPrice,
+      page,
+      sizePage
+    );
+    pagination = await utilsPagination.getPaginationSearch(
+      "category/search?name=" +
+      req.query.name +
+      "&minPrice=" +
+      req.query.minPrice +
+      "&maxPrice=" +
+      req.query.maxPrice,
+      page,
+      sizePage
+    );
+    rightPage = await utilsPagination.getRightPageSearch(
+      "category/search?name=" +
+      req.query.name +
+      "&minPrice=" +
+      req.query.minPrice +
+      "&maxPrice=" +
+      req.query.maxPrice,
+      page,
+      sizePage
+    );
+  } else {
+    products = await Product.find({
+      "name": { $regex: name, $options: "i" }
+    })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
+    console.log(products);
+    size = await Product.count({
+      name: { $regex: name, $options: "i" },
+    });
+    sizePage = Math.max(parseInt(size / perPage + 1));
+
+
+    leftPage = await utilsPagination.getLeftPageSearch(
+      "/category/search?name="
+      + req.query.name,
+      page,
+      sizePage
+    );
+    pagination = await utilsPagination.getPaginationSearch(
+      "/category/search?name="
+      + req.query.name,
+      page,
+      sizePage
+    );
+    rightPage = await utilsPagination.getRightPageSearch(
+      "/category/search?name="
+      + req.query.name,
+      page,
+      sizePage
+    );
+  }
+
+  const categories = await Category.find({});
+
+  let latestProducts = await Product.find({
+    name: { $regex: name, $options: "i" },
+  });
+  latestProducts = latestProducts.slice(0, 3);
+
+  res.render("shop-grid/shop-grid", {
+    products: utils.mutipleMongooseToObject(products),
+    size: size,
+    category: utils.mutipleMongooseToObject(categories),
+    name,
+    latestProducts: utils.mutipleMongooseToObject(latestProducts),
+    pagination: pagination,
+    leftPage: leftPage,
+    rightPage: rightPage,
+    minPrice,
+    maxPrice,
+  });
+}
+
 //Get/:idCategory/:idProduct
 async function getbyIdproduct(req,res){
   
@@ -134,5 +257,6 @@ async function getbyIdproduct(req,res){
 module.exports = {
   getAllProduct,
   getbyCategory,
-  getbyIdproduct
+  getbyIdproduct,
+  getProductBySearch
 };
