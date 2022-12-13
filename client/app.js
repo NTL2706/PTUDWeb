@@ -1,16 +1,20 @@
 // todo module dung de quan ly soucre code
 const express = require("express");
 const bodyParser = require("body-parser");
-const exphbs = require("express-handlebars");
 const expressHandlebarsSections = require("express-handlebars-sections");
 const path = require("path");
 const numeral = require("numeral");
+const session = require("express-session");
+const exphbs = require("express-handlebars");
+require("dotenv");
+// todo cau hinh router
+const router = require("./routes/index");
+// //todo cau hinh  config
+const db = require("./config/database");
+const passport = require("./config/passport");
 // todo cau hinh server
 let PORT = process.env.PORT;
-const app = express();
-
-
-//todo server use
+//todo cau hinh hbs
 const hbs = exphbs.create({
     extname: "hbs",
     defaultLayout: "main",
@@ -82,18 +86,20 @@ const hbs = exphbs.create({
         },
     },
 });
-expressHandlebarsSections(hbs);
 
+
+const app = express();
+//todo server use
+expressHandlebarsSections(hbs);
 app.engine("hbs", hbs.engine);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
-
 app.use(express.static(path.join(__dirname, "/public")));
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(express.json());
-
 
 app.use(
     express.urlencoded({
@@ -101,19 +107,21 @@ app.use(
     })
 );
 
-const router = require("./routes/index");
-
-// //todo cau hinh cua db
-const db = require("./middleware/database");
+app.use(require('cookie-parser')());
+app.use(session({
+    secret: 'very secret keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    // cookie: { secure: true }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //todo database
 db.connectMongoose();
 
-
-
 //todo cac luong thu thi
 router(app);
-
 
 //todo render error
 app.use((req, res) => {
@@ -124,7 +132,6 @@ app.use((req, res) => {
 if (PORT == null || PORT == "") {
     PORT = 3000;
 }
-
 app.listen(PORT, function () {
     console.log("Server has started successfully");
 });

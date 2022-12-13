@@ -1,6 +1,13 @@
 const homeController = {
   index: function (req, res) {
-    res.render("./home/home.hbs", {});
+    if (req.user) {
+      res.render("./home/home.hbs", {
+        user: req.user
+      });
+    }
+    else {
+      res.render("./home/home.hbs", {});
+    }
   },
 };
 

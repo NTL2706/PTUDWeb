@@ -15,23 +15,21 @@
           <div class="header__top__right align-right">
             <div class="header__top__right__auth align-right">
               {{#if user}}
-              <div style="font-size: 14px;">
-                <i class="fas fa-user-check"></i>
-                Hello
-                {{user.name}}
-              </div>
-              <a href="/myaccount">
-                <i class="fa fa-user" style="margin-left: 10px;"></i>
-                Tài Khoản</a>
-              <a href="/logout">
-                <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
-                Đăng Xuất</a>
+                <a href="/my-account">
+                  <div style="font-size: 14px;">
+                    <i class="fas fa-user-check"></i>
+                    Hello
+                    {{user.name}}
+                  </div>
+                  <a href="/my-account/logout">
+                    <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
+                    Đăng Xuất</a>
               {{else}}
-              <a href="/login">
-                <i class="fas fa-sign-in-alt" style="margin-left: 10px;"></i>
-                Đăng nhập</a>
-              <a href="/register"><i class="fa fa-user-plus" style="margin-left: 10px;"></i>
-                Đăng ký</a>
+                <a href="/login">
+                  <i class="fas fa-sign-in-alt" style="margin-left: 10px;"></i>
+                  Đăng nhập</a>
+                <a href="/register"><i class="fa fa-user-plus" style="margin-left: 10px;"></i>
+                  Đăng ký</a>
               {{/if}}
 
             </div>
@@ -52,14 +50,7 @@
           <ul>
 
             <li class="{{#if home}}active{{/if}}"><a href="/">Trang chủ</a></li>
-            <li class="{{#if shop}}active{{/if}}"><a href="/shop-grid">Mua sắm</a></li>
-            {{!-- <li class="{{#if page}}active{{/if}}"><a href="#">Trang</a>
-              <ul class="header__menu__dropdown">
-                <li><a href="/shoping-cart">Giỏ hàng</a></li>
-                <li><a href="/checkout">Thanh toán</a></li>
-                <li><a href="/blog-details">Bài viết chi tiết</a></li>
-              </ul>
-            </li> --}}
+            <li class="{{#if shop}}active{{/if}}"><a href="/category">Mua sắm</a></li>
             <li class="{{#if blog}}active{{/if}}"><a href="/blog">Bài viết</a></li>
             <li class="{{#if contact}}active{{/if}}"><a href="/contact">Liên hệ</a></li>
           </ul>
