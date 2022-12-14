@@ -14,16 +14,7 @@ router.post(
   }
 );
 
-router.get("/logout", function (req, res, next) {
-  console.log();
-  req.logOut(function (err) {
-    if (err) {
-      console.log(err)
-      return next(err);
-    }
-    res.redirect("/");
-  });
-});
+router.get("/logout",admin_controller.getLogout);
 
 router.get("/add-admin", admin_controller.getAddAdmin);
 

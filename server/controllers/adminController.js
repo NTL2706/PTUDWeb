@@ -7,8 +7,17 @@ module.exports = {
     });
   },
 
+  getLogout: (req, res, next) => {
+    req.logout();
+    req.session.destroy(function (err) {
+      if (err) { return next(err); }
+      // The response should indicate that the user is no longer authenticated.
+      res.redirect("/admin/login");
+    });
+  },
+
   getAddAdmin: (req, res, next) => {
-    if (!req.user) {
+    if (req.user) {
       res.render("admin/add-admin");
     } else {
       res.redirect("/admin/login");
