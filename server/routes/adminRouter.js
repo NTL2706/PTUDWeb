@@ -1,18 +1,33 @@
 ﻿const express = require("express");
-
+const passport = require("passport");
 const admin_controller = require("../controllers/adminController");
-
+const Admin = require("../models/admin.model");
 const router = express.Router();
 
 router.get("/login", admin_controller.getLogin);
 
-//router.post("/login", AdminController.postLogin);
+router.post(
+  "/login",
+  passport.authenticate("local", { failureRedirect: "/login" }),
+  function (req, res) {
+    res.redirect("/");
+  }
+);
 
-
+router.get("/logout", function (req, res, next) {
+  console.log();
+  req.logOut(function (err) {
+    if (err) {
+      console.log(err)
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
 
 router.get("/add-admin", admin_controller.getAddAdmin);
 
-// //router.post("/add-admin", AdminController.postAddAdmin);
+router.post("/add-admin", admin_controller.postAddAdmin);
 
 // router.get("/profile", auth, admin_controller.profile);
 

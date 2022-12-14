@@ -1,9 +1,11 @@
 ﻿const home = {
-
     index: function(req,res){
-        res.render("home.hbs",{
-
-        });
+        if(req.user){
+            res.render("home.hbs",{});
+        }
+        else{
+            res.redirect("/admin/login");
+        }
     }
 }
 
