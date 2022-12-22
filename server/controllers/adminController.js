@@ -43,17 +43,41 @@ module.exports = {
     );
   },
 
-  // getEditProfile: async (req, res, next) => {
-  //     if (!req.user) {
-  //         return res.redirect("/admin/login");
-  //     }
-  //     // find admin by id using await
-  //     const admin = await Admin.findById(res.locals.authUser._id);
-  //     return res.render("admin/edit-profile", {
-  //         id: res.locals.authUser._id,
-  //         admin,
-  //     });
-  // },
+  getProfile: async (req, res, next) => {
+    if (!req.user) {
+      return res.redirect("/admin/login");
+    }
+    // find admin by id using await
+    const admin = await Admin.findById(req.user._id);
+    return res.render("admin/profile", {
+      id: req.user._id,
+      admin,
+    });
+  },
+
+  getEditProfile: async (req, res, next) => {
+    if (!req.user) {
+      return res.redirect("/admin/login");
+    }
+    // find admin by id using await
+    const admin = await Admin.findById(req.user._id);
+    return res.render("admin/edit-profile", {
+      id: req.user._id,
+      admin,
+    });
+  },
+
+  postEditProfile: async (req, res, next) => {
+    if (!req.user) {
+      return res.redirect("/admin/login");
+    }
+
+    const admin = await Admin.findById(req.user._id);
+    admin.name = req.body.name;
+    admin.email = req.body.email;
+    await admin.save();
+    return res.redirect("/admin/profile");
+  },
 
   getChangePassword: async (req, res, next) => {
     return res.render("admin/change-password", {

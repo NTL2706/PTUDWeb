@@ -29,6 +29,9 @@ function postLogin(req, res, next) {
             if (err) {
                 return next(err);
             }
+            if (req.user.status == false) {
+                return res.redirect('/my-account/logout')
+            }
             return res.redirect('/');
         });
     })(req, res, next);

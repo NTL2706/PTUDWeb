@@ -56,7 +56,7 @@
             <td>
               <div class="row">
                 <div class="col-3">
-                  <a href="/account/edit-account/{{_id}}">
+                  <a href="/user/edit-user/{{_id}}">
                     <i class="far fa-edit" title="Chỉnh sửa tài khoản"></i>
                   </a>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="col-3">
                   {{#ifCond this.status "==" true}}
                     <a
-                      href="/account/block-account/{{_id}}"
+                      href="/user/block-user/{{_id}}"
                       onclick="return confirm('Bạn có muốn khóa tài khoản không')"
                     >
                       <i
@@ -75,7 +75,7 @@
                     </a>
                   {{else}}
                     <a
-                      href="/account/unblock-account/{{_id}}"
+                      href="/user/unblock-user/{{_id}}"
                       onclick="return confirm('Bạn có muốn mở khóa tài khoản không')"
                     >
                       <i
@@ -89,7 +89,7 @@
 
                 <div class="col-3">
                   <a
-                    href="/account/delete-account/{{_id}}"
+                    href="/user/delete-user/{{_id}}"
                     onclick="return confirm('Bạn có muốn xóa tài khoản không')"
                   >
                     <i
@@ -114,19 +114,19 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item {{#unless this.isPreviousPage}} disabled {{/unless}}">
-                <a class="page-link " href="/account?page={{this.previousPage}}" aria-label="Previous">
+                <a class="page-link " href="/user/all-user?page={{this.previousPage}}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
             {{#each pages}}
                 <li class="page-item {{#if this.isCurrentPage}} active {{/if}}">
-                    <a class="page-link" href="/account?page={{this.page}}">{{this.page}}</a>
+                    <a class="page-link" href="/user/all-user?page={{this.page}}">{{this.page}}</a>
                 </li>
             {{/each}}
 
             <li class="page-item {{#unless this.isNextPage}} disabled {{/unless}}">
-                <a class="page-link" href="/account?page={{this.nextPage}}" aria-label="Next">
+                <a class="page-link" href="/user/all-user?page={{this.nextPage}}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                 </a>

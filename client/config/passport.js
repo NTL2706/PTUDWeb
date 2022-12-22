@@ -9,6 +9,7 @@ passport.serializeUser(function (user, done) {      // ma hoa
         name: user.name,
         address: user.address,
         id: user._id,
+        status: user.status
     });
 });
 

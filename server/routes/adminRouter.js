@@ -20,13 +20,12 @@ router.get("/add-admin", admin_controller.getAddAdmin);
 
 router.post("/add-admin", admin_controller.postAddAdmin);
 
-// router.get("/profile", auth, admin_controller.profile);
+router.get("/profile",  admin_controller.getProfile);
 
-// // edit profile
-// router.get("/edit-profile", admin_controller.getEditProfile);
+// edit profile
+router.get("/edit-profile", admin_controller.getEditProfile);
 
-// // edit profile post
-// //router.post("/edit-profile", AdminController.postEditProfile);
+router.post("/edit-profile", admin_controller.postEditProfile);
 
 // // change password
 router.get("/change-password", admin_controller.getChangePassword);
