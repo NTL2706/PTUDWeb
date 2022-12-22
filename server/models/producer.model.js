@@ -8,4 +8,4 @@ const ProducerSchema = new Schema(
   { collection: "producer" }
 );
 
-module.exports = mongoose.model("Order", OrderSchema);
+module.exports = mongoose.model("Producer", ProducerSchema);
