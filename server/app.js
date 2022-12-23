@@ -5,16 +5,20 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const Handlebars = require("handlebars");
 const cors = require("cors");
+const helpers = require("./helpers/viewEngine.js");
+const session = require("express-session");
+
+const privateValue = require("./config/env");
+const passport = require("./config/passport");
+const db = require("./config/database");
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
-const helpers = require("./helpers/viewEngine.js");
-const session = require("express-session");
-const env = require("dotenv").config();
-const passport = require("./config/passport");
-const db = require("./config/database");
+var corsOptions = {
+    origin: "http://localhost:5000"
+};
 // todo cau hinh server
-let PORT = process.env.PORT;
+let PORT = privateValue.port;
 const app = express();
 
 //cau hinh file hbs
@@ -43,9 +47,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 // body-parser
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, "/public")));
 
 const router = require("./routes/index");
