@@ -10,7 +10,7 @@
               </div>
               <h2 class="text-uppercase text-center mb-3">Cập nhật thông tin</h2>
 
-              <form id="edit-category-form" method="POST" action="/category/edit-category">
+              <form id="edit-category-form" method="POST" action="/product/edit-category">
                 <input type="hidden" name="id" value="{{ category._id}}">
                 <div class="form-outline mb-2">
                   <label class="form-label" for="form3Example1cg">Tên danh mục</label>
@@ -26,13 +26,10 @@
                   <input name="image" type="file" id="fileImageProduct" class="form-control form-control-lg" />
                 </div>
 
-               <div class="d-grid gap-2">
-                  <button
-                    onclick="myFunction()"
-                    class="btn btn-primary btn-lg gradient-custom-4"
-                    type="button"
-                  >Cập nhật</button>
-              </div>
+                <div class="d-grid gap-2">
+                  <button onclick="myFunction()" class="btn btn-primary btn-lg gradient-custom-4" type="button">Cập
+                    nhật</button>
+                </div>
                 <input type="hidden" name="urlImage" id="url-image" value="{{category.image}}" />
               </form>
 
