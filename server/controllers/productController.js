@@ -184,7 +184,7 @@ const product = {
                 isCurrentPage: isCurrentPage,
               });
             }
-            res.render("producer/list-producer", {
+            res.render("./producer/list-producer", {
               producers,
               pages,
               isNextPage: page < Math.ceil(count / perPage),
@@ -196,12 +196,16 @@ const product = {
             });
           });
         });
+    } else {
+      res.redirect("/admin/login");
     }
   },
 
   getAddProducer: async function (req, res) {
     if (req.user) {
-      res.render("producer/add-producer");
+      res.render("./producer/add-producer");
+    } else {
+      res.redirect("/admin/login");
     }
   },
 
@@ -212,7 +216,9 @@ const product = {
         listIdProduct: [],
       })
       await producer.save();
-      res.redirect("/producer?page=1");
+      res.redirect("/product/producer?page=1");
+    } else {
+      res.redirect("/admin/login");
     }
   },
 
@@ -223,7 +229,9 @@ const product = {
         listIdProduct: [],
       });
       await producer.save();
-      res.redirect("/producer?page=1");
+      res.redirect("/product/show-producer?page=1");
+    } else {
+      res.redirect("/admin/login");
     }
   },
 
@@ -233,11 +241,13 @@ const product = {
         if (err) {
           console.log(err);
         } else {
-          res.render("producer/edit-producer", {
+          res.render("./producer/edit-producer", {
             producer,
           });
         }
       });
+    } else {
+      res.redirect("/admin/login");
     }
   },
 
@@ -252,14 +262,20 @@ const product = {
           if (err) {
             console.log(err);
           } else {
-            res.redirect("product/show-producer?page=1");
+            res.redirect("/product/show-producer?page=1");
           }
         }
       );
+    } else {
+      res.redirect("/admin/login");
     }
   },
 
   getDeleteProducer: async function (req, res) {
+    if (!req.user) {
+      res.redirect("/admin/login");
+      return;
+    }
     const producer = await Producer.findById(req.params.id);
     const listIdProduct = producer.listIdProduct;
 
@@ -268,7 +284,7 @@ const product = {
     }
 
     await Producer.findByIdAndDelete(req.params.id);
-    res.redirect("product/show-producer?page=1");
+    res.redirect("/product/show-producer?page=1");
   }
 };
 

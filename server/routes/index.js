@@ -9,10 +9,7 @@ function route(app) {
     app.use("/admin", admin_router);
     app.use("/user", user_router);
     app.use("/product", product_router);
-    // app.use("/login", login_router);
-    // app.use("/register", register_router);
-    // app.use("/cart", shoping_cart_router);
-    // app.use("/product", product_router);
+    
 
     app.get("/files", uploadController.getListFiles);
     app.get("/files/:name", uploadController.download);
