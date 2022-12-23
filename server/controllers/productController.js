@@ -285,6 +285,49 @@ const product = {
 
     await Producer.findByIdAndDelete(req.params.id);
     res.redirect("/product/show-producer?page=1");
+  },
+
+  getShowProduct: async function (req, res) {
+    if (!req.user) {
+      res.redirect("/admin/login");
+      return;
+    }
+    let perPage = 6; 
+    let page = req.query.page || 1; 
+    if (page < 1) {
+      page = 1;
+    }
+
+    Product.find() // find tất cả các data
+      .skip(perPage * page - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+      .limit(perPage)
+      .exec((err, product) => {
+        Product.countDocuments((err, count) => {
+          // đếm để tính có bao nhiêu trang
+          if (err) return next(err);
+          let isCurrentPage;
+          const pages = [];
+          for (let i = 1; i <= Math.ceil(count / perPage); i++) {
+            if (i === +page) {
+              isCurrentPage = true;
+            } else {
+              isCurrentPage = false;
+            }
+            pages.push({
+              page: i,
+              isCurrentPage: isCurrentPage,
+            });
+          }
+          res.render("product/list-product", {
+            product,
+            pages,
+            isNextPage: page < Math.ceil(count / perPage),
+            isPreviousPage: page > 1,
+            nextPage: +page + 1,
+            previousPage: +page - 1,
+          });
+        });
+      });
   }
 };
 

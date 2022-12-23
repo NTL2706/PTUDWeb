@@ -21,4 +21,6 @@ router.get("/edit-producer/:id", product_controller.getEditProducer);
 router.post("/edit-producer", product_controller.postEditProducer);
 
 router.get("/delete-producer/:id", product_controller.getDeleteProducer);
+
+router.get("/show-product")
 module.exports = router;
