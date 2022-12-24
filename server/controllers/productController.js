@@ -6,7 +6,6 @@ const uploadImg = require("./uploadController");
 const upload = require("../middleware/upload");
 const { load } = require("nodemon/lib/config");
 
-
 const product = {
   getCategoryView: async function (req, res) {
     if (req.user) {
@@ -21,7 +20,6 @@ const product = {
         .limit(perPage)
         .exec((err, categories) => {
           Category.countDocuments(async (err, count) => {
-
             if (err) return next(err);
             const listProducts = [];
 
@@ -85,9 +83,7 @@ const product = {
         }
       });
     }
-
   },
-
 
   getEditCategory: async function (req, res) {
     if (req.user) {
@@ -134,7 +130,7 @@ const product = {
     }
   },
 
-  deleteCategory: async (req, res) => {
+  getDeleteCategory: async (req, res) => {
     const category = await Category.findById(req.params.id);
     const listIdProduct = category.listIdProduct;
 
@@ -159,7 +155,6 @@ const product = {
         .limit(perPage)
         .exec((err, producers) => {
           Producer.countDocuments(async (err, count) => {
-
             if (err) return next(err);
             const listProducts = [];
 
@@ -214,7 +209,7 @@ const product = {
       const producer = new Producer({
         name: req.body.name,
         listIdProduct: [],
-      })
+      });
       await producer.save();
       res.redirect("/product/producer?page=1");
     } else {
@@ -292,8 +287,8 @@ const product = {
       res.redirect("/admin/login");
       return;
     }
-    let perPage = 6; 
-    let page = req.query.page || 1; 
+    let perPage = 6;
+    let page = req.query.page || 1;
     if (page < 1) {
       page = 1;
     }
@@ -328,7 +323,259 @@ const product = {
           });
         });
       });
-  }
+  },
+
+  getAddProduct: async function (req, res) {
+    const category = await Category.find({});
+    const producer = await Producer.find({});
+    res.render("product/add-product", {
+      category,
+      producer,
+    });
+  },
+
+  postAddProduct: async function (req, res) {
+    if (req.user) {
+      const category = await Category.findById(req.body.id_category);
+      const idProduct = to_slug(req.body.name) + "-" + Date.now();
+      const url = category.idCategory + "/" + idProduct;
+
+      const listImgExtra = await req.body.listUrlImageExtra.split(",");
+
+      const product = new Product({
+        name: req.body.name,
+        details: req.body.details,
+        quantity: req.body.quantity,
+        price: req.body.price,
+        image: req.body.urlImage,
+        listImgExtra: listImgExtra,
+        category: req.body.category,
+        producer: req.body.producer,
+        idProduct: idProduct,
+        listIdRating: [],
+        url: url,
+      });
+
+      product.save((err) => {
+        if (err) {
+          console.log(err);
+          res.render("product/add-product", {
+            msg: err,
+          });
+        } else {
+          // find category and push product id
+          Category.findByIdAndUpdate(
+            req.body.id_category,
+            {
+              $push: {
+                listIdProduct: product._id,
+              },
+            },
+            (err, cha) => {
+              if (err) {
+                console.log(err);
+              } else {
+                // find producer and push product id
+                Producer.findByIdAndUpdate(
+                  req.body.id_producer,
+                  {
+                    $push: {
+                      listIdProduct: product._id,
+                    },
+                  },
+                  (err, pro) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      res.redirect("/product/show-product?page=1");
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
+      });
+    }
+  },
+
+  getEditProduct: async function (req, res) {
+    if (req.user) {
+      // find all category using async await
+      const category = await Category.find({});
+      const producer = await Producer.find({});
+
+      // find id category that have this product id in listIdProduct
+      Product.findById(req.params.id, (err, product) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        Category.find(
+          { listIdProduct: product._id },
+          (err, currentCategory) => {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            res.render("product/edit-product", {
+              product,
+              producer,
+              category,
+              idCurrentCategory: currentCategory[0]._id,
+            });
+          }
+        );
+      });
+    }
+  },
+
+  postEditProduct: async function (req, res) {
+    if (req.user) {
+      // find product and update
+      const category = await Category.findById(req.body.id_category);
+      const idProduct = to_slug(req.body.name) + "-" + Date.now();
+      const url = category.idCategory + "/" + idProduct;
+      const listImgExtra = await req.body.listUrlImageExtra.split(",");
+      const product = await Product.findByIdAndUpdate(
+        req.body.id,
+        {
+          $set: {
+            name: req.body.name,
+            details: req.body.details,
+            quantity: req.body.quantity,
+            price: req.body.price,
+            image: req.body.urlImage,
+            listImgExtra: listImgExtra,
+            category: req.body.category,
+            producer: req.body.producer,
+            idProduct: idProduct,
+            listIdRating: [],
+            url: url,
+          },
+        },
+        async (err, product) => {
+          if (err) return next(err);
+          // find old category and remove product id
+          const currentCategory = await Category.find({
+            listIdProduct: product._id,
+          }).clone();
+          // find category and remove product id
+          await Category.findByIdAndUpdate(
+            currentCategory[0]._id,
+            {
+              $pull: {
+                listIdProduct: product._id,
+              },
+            },
+            async (err, cha) => {
+              if (err) {
+                console.log(err);
+              } else {
+                // find category and push product id
+                await Category.findByIdAndUpdate(
+                  req.body.id_category,
+                  {
+                    $addToSet: {
+                      listIdProduct: product._id,
+                    },
+                  },
+                  async (err, cha) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      // find old producer and remove product id
+                      const currentProducer = await Producer.find({
+                        listIdProduct: product._id,
+                      }).clone();
+                      // find producer and remove product id
+                      await Producer.findByIdAndUpdate(
+                        currentProducer[0]._id,
+                        {
+                          $pull: {
+                            listIdProduct: product._id,
+                          },
+                        },
+                        async (err, cha) => {
+                          if (err) {
+                            console.log(err);
+                          } else {
+                            // find producer and push product id
+                            await Producer.findByIdAndUpdate(
+                              req.body.id_producer,
+                              {
+                                $addToSet: {
+                                  listIdProduct: product._id,
+                                },
+                              },
+                              (err, cha) => {
+                                if (err) {
+                                  console.log(err);
+                                } else {
+                                  res.redirect("product/show-product?page=1");
+                                }
+                              }
+                            ).clone();
+                          }
+                        }
+                      ).clone();
+                    }
+                  }
+                ).clone();
+              }
+            }
+          ).clone();
+        }
+      ).clone();
+    }
+  },
+
+  getDeleteProduct: async function (req, res) {
+    if (req.user) {
+      Product.findByIdAndDelete(req.params.id, async (err, product) => {
+        if (err) return next(err);
+        // find category and remove product id
+        const currentCategory = await Category.find({
+          listIdProduct: req.params.id,
+        }).clone();
+        // find category and remove product id
+        await Category.findByIdAndUpdate(
+          currentCategory[0]._id,
+          {
+            $pull: {
+              listIdProduct: req.params.id,
+            },
+          },
+          async (err, cha) => {
+            if (err) {
+              console.log(err);
+            } else {
+              // find producer and remove product id
+              const currentProducer = await Producer.find({
+                listIdProduct: req.params.id,
+              }).clone();
+              // find producer and remove product id
+              await Producer.findByIdAndUpdate(
+                currentProducer[0]._id,
+                {
+                  $pull: {
+                    listIdProduct: req.params.id,
+                  },
+                },
+                (err, cha) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    res.redirect("product/show-product?page=1");
+                  }
+                }
+              ).clone();
+            }
+          }
+        ).clone();
+      }).clone();
+    }
+  },
 };
 
 module.exports = product;

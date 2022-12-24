@@ -10,6 +10,8 @@ router.get("/edit-category/:id",product_controller.getEditCategory);
 
 router.post("/edit-category", product_controller.postEditCategory);
 
+router.get("/delete-category", product_controller.getDeleteCategory);
+
 router.get("/show-producer", product_controller.getShowProducer);
 
 router.get("/add-producer", product_controller.getAddProducer);
@@ -22,5 +24,16 @@ router.post("/edit-producer", product_controller.postEditProducer);
 
 router.get("/delete-producer/:id", product_controller.getDeleteProducer);
 
-router.get("/show-product")
+router.get("/show-product", product_controller.getShowProduct);
+
+router.get("/add-product", product_controller.getAddProduct);
+
+router.post("/add-product", product_controller.postAddProduct);
+
+router.get("/edit-product", product_controller.getEditProduct);
+
+router.post("/edit-product", product_controller.postEditProduct);
+
+router.get("/delete-product", product_controller.getDeleteProduct);
+
 module.exports = router;
