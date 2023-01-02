@@ -13,7 +13,7 @@
               <h2 class="text-uppercase text-center mb-3">Cập nhật thông tin sản
                 phẩm</h2>
 
-              <form id="edit-product-form" method="POST" action="/product/edit-product">
+              <form id="edit-product-form" method="POST" enctype="multipart/form-data" action="/product/edit-product">
                 <input type="hidden" name="id" value="{{product._id}}" />
 
                 {{!-- name --}}
@@ -45,18 +45,18 @@
 
                 {{!-- image --}}
                 <div class="center">
-                  <img src="{{product.image}}" alt="" width="100px" height="100px" />
+                  <img src="/product/files/{{product.image}}" alt="" width="100px" height="100px" />
                 </div>
 
                 {{!-- choose file image --}}
                 <div class="form-outline mb-4">
                   <label class="form-label" for="fileImageProduct">Ảnh</label>
-                  <input name="image" type="file" id="fileImageProduct" class="form-control form-control-lg" required />
+                  <input name="multi-files" type="file" id="fileImageProduct" class="form-control form-control-lg" required />
                 </div>
 
                 <div class="d-flex justify-content-around">
                   {{#each product.listImgExtra}}
-                  <img src="{{this}}" alt="" width="100px" height="100px" />
+                    <img src="/product/files/{{this}}" alt="" width="100px" height="100px" />
                   {{/each}}
                 </div>
 
@@ -65,7 +65,7 @@
                 {{!-- list image extra --}}
                 <div class="form-outline mb-4">
                   <label class="form-label" for="fileImageProduct">Danh sách ảnh bổ sung</label>
-                  <input name="listImageExtra" type="file" id="listImageExtra" class="form-control form-control-lg"
+                  <input name="multi-files" type="file" id="listImageExtra" class="form-control form-control-lg"
                     accept="image/*" multiple required />
                 </div>
 
@@ -73,7 +73,7 @@
                 <div class="form-outline mb-2">
                   <select id="product-category" name="id_category" class="form-control form-control-lg">
                     {{#each category}}
-                    <option value="{{this._id}}">{{this.name}}</option>
+                      <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}
                   </select>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="form-outline mb-2">
                   <select id="product-producer" name="id_producer" class="form-control form-control-lg">
                     {{#each producer}}
-                    <option value="{{this._id}}">{{this.name}}</option>
+                      <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}
                   </select>
                 </div>
@@ -96,11 +96,8 @@
               </form>
 
               <div class="d-grid gap-2 mt-3">
-                  <button
-                    onclick="myFunction()"
-                    class="btn btn-primary btn-lg gradient-custom-4"
-                    type="button"
-                  >Cập nhật</button>
+                <button onclick="myFunction()" class="btn btn-primary btn-lg gradient-custom-4" type="button">Cập
+                  nhật</button>
               </div>
               <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
               <script>

@@ -1,4 +1,4 @@
-const upload = require("../middleware/upload");
+const upload = require("../config/upload");
 const privateValue = require("../config/env");
 
 const MongoClient = require("mongodb").MongoClient;
@@ -13,14 +13,19 @@ const mongoClient = new MongoClient(url);
 async function uploadFile(req, res) {
     try {
         await upload(req, res);
-        console.log(req.file);
+        console.log(req.files);
 
-        if (req.file == undefined) {
+        if (req.files.length <= 0) {
+            console.log("You must select at least 1 file.")
             return "";
         }
-        return req.file.filename;
+        console.log("upload image successfully");
+        return req.files;
     } catch (error) {
         console.log(error);
+        if (error.code === "LIMIT_UNEXPECTED_FILE") {
+            return res.send("Too many files to upload.");
+        }
         return "";
     }
 };
@@ -85,8 +90,35 @@ const download = async (req, res) => {
     }
 };
 
+const deleteFile = async (req, res, fileName) => {
+    const database = mongoClient.db(privateValue.databaseVegetable);
+    const bucket = new GridFSBucket(database, {
+        bucketName: privateValue.imgBucket,
+    });
+    bucket.find({ filename: fileName }).toArray((err, files) => {
+        if (err) throw err;
+
+        if (files.length === 0) {
+            console.log("File not found");
+            return false;
+        }
+
+        // Get the ID of the file
+        const fileId = files[0]._id;
+
+        // Delete the file
+        bucket.delete(fileId, (err) => {
+            if (err) throw err;
+
+            console.log("File deleted successfully");
+            return true;
+        });
+    });
+}
+
 module.exports = {
     uploadFile,
     getListFiles,
     download,
+    deleteFile
 };

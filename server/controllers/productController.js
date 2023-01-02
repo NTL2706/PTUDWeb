@@ -2,9 +2,8 @@
 const Category = require("../models/category.model");
 const Producer = require("../models/producer.model");
 const to_slug = require("../public/js/slug.js");
-const uploadImg = require("./uploadController");
-const upload = require("../middleware/upload");
-const { load } = require("nodemon/lib/config");
+const uploadImg = require("../middleware/uploadImg");
+const upload = require("../config/upload");
 
 const product = {
   getCategoryView: async function (req, res) {
@@ -56,6 +55,8 @@ const product = {
             });
           });
         });
+    } else {
+      res.redirect("/admin/login");
     }
   },
 
@@ -68,11 +69,15 @@ const product = {
 
   postAddCategory: async function (req, res) {
     if (req.user) {
-      const filename = await uploadImg.uploadFile(req, res);
+      const files = await uploadImg.uploadFile(req, res);
+      let filesname = "";
+      if (files != "") {
+        filesname = files[0].filename;
+      }
       const category = new Category({
         name: req.body.name,
         idCategory: to_slug(req.body.name) + "-" + Date.now(),
-        image: filename,
+        image: filesname,
         listIdProduct: [],
       });
       category.save((err) => {
@@ -100,8 +105,16 @@ const product = {
 
   postEditCategory: async function (req, res) {
     if (req.user) {
-      const idCategory = to_slug(req.body.name) + "-" + Date.now();
+      const files = await uploadImg.uploadFile(req, res);
+      let filename = "";
+      if (files != "") {
+        filename = files[0].filename;
+      }
+
       const category = await Category.findById(req.body.id);
+      await uploadImg.deleteFile(req, res, category.image);
+
+      const idCategory = to_slug(req.body.name) + "-" + Date.now();
       const listIdProduct = category.listIdProduct;
 
       for await (let idProduct of listIdProduct) {
@@ -116,7 +129,7 @@ const product = {
         req.body.id,
         {
           name: req.body.name,
-          image: req.body.urlImage,
+          image: filename,
           idCategory: idCategory,
         },
         (err, category) => {
@@ -133,6 +146,7 @@ const product = {
   getDeleteCategory: async (req, res) => {
     const category = await Category.findById(req.params.id);
     const listIdProduct = category.listIdProduct;
+    await uploadImg.deleteFile(req, res, category.image);
 
     for (let i = 0; i < listIdProduct.length; i++) {
       await Product.findByIdAndDelete(listIdProduct[i]);
@@ -326,6 +340,7 @@ const product = {
   },
 
   getAddProduct: async function (req, res) {
+
     const category = await Category.find({});
     const producer = await Producer.find({});
     res.render("product/add-product", {
@@ -335,68 +350,73 @@ const product = {
   },
 
   postAddProduct: async function (req, res) {
-    if (req.user) {
-      const category = await Category.findById(req.body.id_category);
-      const idProduct = to_slug(req.body.name) + "-" + Date.now();
-      const url = category.idCategory + "/" + idProduct;
+    let listImgExtra = [];
+    const files = await uploadImg.uploadFile(req, res);
+    if (files.length > 0) {
+      for (let file of files) {
+        listImgExtra.push(file.filename);
+      }
+    }  
+    const category = await Category.findById(req.body.id_category);
+    console.log(req.body.id_category);
+    const idProduct = to_slug(req.body.name) + "-" + Date.now();
+    const url = category.idCategory + "/" + idProduct;
 
-      const listImgExtra = await req.body.listUrlImageExtra.split(",");
+    const product = new Product({
+      name: req.body.name,
+      details: req.body.details,
+      quantity: req.body.quantity,
+      price: req.body.price,
+      image: listImgExtra[0],
+      listImgExtra: listImgExtra,
+      category: req.body.category,
+      producer: req.body.producer,
+      idProduct: idProduct,
+      listIdRating: [],
+      url: url,
+    });
 
-      const product = new Product({
-        name: req.body.name,
-        details: req.body.details,
-        quantity: req.body.quantity,
-        price: req.body.price,
-        image: req.body.urlImage,
-        listImgExtra: listImgExtra,
-        category: req.body.category,
-        producer: req.body.producer,
-        idProduct: idProduct,
-        listIdRating: [],
-        url: url,
-      });
-
-      product.save((err) => {
-        if (err) {
-          console.log(err);
-          res.render("product/add-product", {
-            msg: err,
-          });
-        } else {
-          // find category and push product id
-          Category.findByIdAndUpdate(
-            req.body.id_category,
-            {
-              $push: {
-                listIdProduct: product._id,
-              },
+    product.save((err) => {
+      if (err) {
+        console.log(err);
+        res.render("product/add-product", {
+          msg: err,
+        });
+      } else {
+        // find category and push product id
+        Category.findByIdAndUpdate(
+          req.body.id_category,
+          {
+            $push: {
+              listIdProduct: product._id,
             },
-            (err, cha) => {
-              if (err) {
-                console.log(err);
-              } else {
-                // find producer and push product id
-                Producer.findByIdAndUpdate(
-                  req.body.id_producer,
-                  {
-                    $push: {
-                      listIdProduct: product._id,
-                    },
+          },
+          (err, cha) => {
+            if (err) {
+              console.log(err);
+            } else {
+              // find producer and push product id
+              Producer.findByIdAndUpdate(
+                req.body.id_producer,
+                {
+                  $push: {
+                    listIdProduct: product._id,
                   },
-                  (err, pro) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      res.redirect("/product/show-product?page=1");
-                    }
+                },
+                (err, pro) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    res.redirect("/product/show-product?page=1");
                   }
-                );
-              }
+                }
+              );
             }
-          );
-        }
-      });
-    }
+          }
+        );
+      }
+    });
+
   },
 
   getEditProduct: async function (req, res) {
@@ -433,11 +453,24 @@ const product = {
   postEditProduct: async function (req, res) {
     if (req.user) {
       // find product and update
+      const files = await uploadImg.uploadFile(req, res);
+      let filename = [];
+      for (let file of files) {
+        filename.push(file.filename);
+      }
+
       const category = await Category.findById(req.body.id_category);
+      let product = await Product.findById(req.body.id);
+      if (product.listImgExtra.length > 0) {
+        for (let img of product.listImgExtra) {
+          await uploadImg.deleteFile(req, res, img);
+        }
+      }
+
       const idProduct = to_slug(req.body.name) + "-" + Date.now();
       const url = category.idCategory + "/" + idProduct;
-      const listImgExtra = await req.body.listUrlImageExtra.split(",");
-      const product = await Product.findByIdAndUpdate(
+
+      product = await Product.findByIdAndUpdate(
         req.body.id,
         {
           $set: {
@@ -445,8 +478,8 @@ const product = {
             details: req.body.details,
             quantity: req.body.quantity,
             price: req.body.price,
-            image: req.body.urlImage,
-            listImgExtra: listImgExtra,
+            image: filename[0],
+            listImgExtra: filename,
             category: req.body.category,
             producer: req.body.producer,
             idProduct: idProduct,
@@ -512,7 +545,7 @@ const product = {
                                 if (err) {
                                   console.log(err);
                                 } else {
-                                  res.redirect("product/show-product?page=1");
+                                  res.redirect("/product/show-product?page=1");
                                 }
                               }
                             ).clone();
@@ -533,6 +566,11 @@ const product = {
   getDeleteProduct: async function (req, res) {
     if (req.user) {
       Product.findByIdAndDelete(req.params.id, async (err, product) => {
+        if (product.listImgExtra.length > 0) {
+          for (let img of product.listImgExtra) {
+            await uploadImg.deleteFile(req, res, img);
+          }
+        }
         if (err) return next(err);
         // find category and remove product id
         const currentCategory = await Category.find({
@@ -566,7 +604,7 @@ const product = {
                   if (err) {
                     console.log(err);
                   } else {
-                    res.redirect("product/show-product?page=1");
+                    res.redirect("/product/show-product?page=1");
                   }
                 }
               ).clone();

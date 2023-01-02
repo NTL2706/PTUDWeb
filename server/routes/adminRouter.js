@@ -14,13 +14,13 @@ router.post(
   }
 );
 
-router.get("/logout",admin_controller.getLogout);
+router.get("/logout", admin_controller.getLogout);
 
 router.get("/add-admin", admin_controller.getAddAdmin);
 
 router.post("/add-admin", admin_controller.postAddAdmin);
 
-router.get("/profile",  admin_controller.getProfile);
+router.get("/profile", admin_controller.getProfile);
 
 // edit profile
 router.get("/edit-profile", admin_controller.getEditProfile);

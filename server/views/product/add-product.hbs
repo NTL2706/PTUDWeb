@@ -17,7 +17,7 @@
               </div>
 
               <h2 class="text-uppercase text-center mb-3">Thêm sản phẩm</h2>
-              <form id="add-product-form" action="/product/add-product" method="POST">
+              <form id="add-product-form" enctype="multipart/form-data" action="/product/add-product" method="POST" >
 
                 {{!-- name --}}
                 <div class="form-outline mb-2">
@@ -46,17 +46,15 @@
                 {{!-- image --}}
                 <div class="form-outline mb-4">
                   <label class="form-label" for="fileImageProduct">Ảnh</label>
-                  <input name="image" type="file" id="fileImageProduct" class="form-control form-control-lg" required />
+                  <input name="multi-files" type="file" id="fileImageProduct" class="form-control form-control-lg" required />
                 </div>
 
                 {{!-- list image extra --}}
                 <div class="form-outline mb-4">
                   <label class="form-label" for="fileImageProduct">Danh sách ảnh bổ sung</label>
-                  <input name="listImageExtra" type="file" id="listImageExtra" class="form-control form-control-lg"
+                  <input name="multi-files" type="file" id="listImageExtra" class="form-control form-control-lg"
                     accept="image/*" multiple required />
                 </div>
-
-
 
                 {{!-- category --}}
                 <div class="form-outline mb-4">
