@@ -1,6 +1,6 @@
 const User = require("../../models/User");
 const passport = require("passport");
-
+ 
 function getLogin(req, res) {
     if (req.user) {
         res.redirect("/");

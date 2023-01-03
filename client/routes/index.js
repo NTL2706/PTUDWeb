@@ -4,6 +4,7 @@ const shoping_cart_router = require("./shopingCartRouter");
 const login_router = require("./account/loginRouter");
 const register_router = require("./account/registerRouter");
 const my_account_router = require("./account/myAccountRouter");
+const uploadImage = require("../middlewares/uploadImg");
 
 function route(app) {
     app.use("/", home_router);
@@ -16,6 +17,7 @@ function route(app) {
     app.get("/contact", function (req, res) {
         res.render("contact/contact");
     });
+    app.get("/:name", uploadImage.download);
 }
 
 module.exports = route;
