@@ -68,7 +68,6 @@ module.exports = {
     } else {
       const user = await User.findOne({ email: req.user.email });
       const shoppingCart = await ShoppingCart.findById(user.idShoppingCart);
-      console.log(user);
       let listProductOrder = [];
       for await (let idProductOrder of shoppingCart.listProductOrder) {
         let productOrder = await ProductOrder.findById(idProductOrder);

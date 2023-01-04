@@ -9,8 +9,6 @@ async function getAllProduct(req, res) {
   if (req.param("page") == null) {
     page = 1;
   }
-  console.log("hello");
-  console.log(page);
 
   const products = await Product.find({})
     .skip(perPage * (page - 1))
@@ -38,7 +36,6 @@ async function getAllProduct(req, res) {
 
   let latestProducts = await Product.find({});
   latestProducts = latestProducts.slice(0, 3);
-  console.log(utils.mutipleMongooseToObject(categories));
   res.render("shop-grid/shop-grid", {
     products: utils.mutipleMongooseToObject(products),
     size: size,
@@ -58,12 +55,8 @@ async function getbyCategory(req, res) {
   if (req.param("page") == null) {
     page = 1;
   }
-  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-  console.log(fullUrl);
 
-  console.log("hello");
   let idCategory = req.param("idCategory");
-  console.log(idCategory);
   let name_Category = await Category.findOne({ "idCategory": idCategory });
 
   const products = await Product.find({
@@ -181,7 +174,6 @@ async function getProductBySearch(req, res) {
     })
       .skip(perPage * (page - 1))
       .limit(perPage);
-    console.log(products);
     size = await Product.count({
       name: { $regex: name, $options: "i" },
     });
@@ -247,7 +239,6 @@ async function getbyIdproduct(req, res) {
     _id: { $in: select_Category.listIdProduct }
   })
 
-  console.log(relate_Product);
   const categories = await Category.find({});
   await res.render("shop-details/shop-details", {
     product: utils.mutipleMongooseToObject(new Array(select_Product)),

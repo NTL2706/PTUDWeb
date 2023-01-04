@@ -4,6 +4,7 @@ const shoping_cart_router = require("./shopingCartRouter");
 const login_router = require("./account/loginRouter");
 const register_router = require("./account/registerRouter");
 const my_account_router = require("./account/myAccountRouter");
+const checkout_router = require("./checkoutRouter");
 const uploadImage = require("../middlewares/uploadImg");
 
 function route(app) {
@@ -13,7 +14,7 @@ function route(app) {
     app.use("/cart", shoping_cart_router);
     app.use("/category", product_router);
     app.use("/my-account", my_account_router);
-
+    app.use("/checkout", checkout_router);
     app.get("/contact", function (req, res) {
         res.render("contact/contact");
     });
