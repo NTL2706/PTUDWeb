@@ -17,7 +17,7 @@ module.exports = {
   },
 
   getAddAdmin: (req, res, next) => {
-    if (req.user) {
+    if (!req.user) {
       res.render("admin/add-admin");
     } else {
       res.redirect("/admin/login");

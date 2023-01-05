@@ -4,7 +4,7 @@ const privateValue = require("../config/env");
 const MongoClient = require("mongodb").MongoClient;
 const GridFSBucket = require("mongodb").GridFSBucket;
 
-const url = "mongodb://127.0.0.1:27017/";
+const url = privateValue.urlMongo ;
 
 const baseUrl = "http://localhost:5000/files/";
 

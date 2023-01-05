@@ -1,22 +1,22 @@
-﻿const env = require("dotenv");
-const mongoose = require("mongoose");
+﻿const mongoose = require("mongoose");
+const privateValue = require("./env");
 
 //set up mongoose
 mongoose.set('strictQuery', false);
 
 async function connectMongoose() {
-    try{
+    try {
         await mongoose.connect(
-            "mongodb://127.0.0.1:27017/VegatableShop",
+            privateValue.urlMongo + privateValue.databaseVegetable,
             { useNewUrlParser: true, useUnifiedTopology: true },
             () => {
                 console.log("Connected to MongoDB");
             }
         );
     }
-    catch(e){
+    catch (e) {
         console.log("Disconnect to mongoDB");
     }
 }
 
-module.exports = {connectMongoose};
+module.exports = { connectMongoose };

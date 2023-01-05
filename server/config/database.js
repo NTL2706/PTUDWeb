@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 mongoose.set('strictQuery', false);
 
 async function connectMongoose() {
-    console.log(privateValue.urlMongo + privateValue.databaseVegetable);
     try{
         await mongoose.connect(
             privateValue.urlMongo + privateValue.databaseVegetable,
