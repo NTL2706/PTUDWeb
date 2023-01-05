@@ -17,6 +17,7 @@ module.exports = {
         const listOrder = await CheckOut.find({})
             .skip(perPage * page - perPage)
             .limit(perPage);
+        console.log(listOrder);
         const count = await CheckOut.countDocuments();
         for (let i = 0; i < listOrder.length; i++) {
             const Customer = await User.find({ email: listOrder[i].email });
@@ -26,7 +27,7 @@ module.exports = {
             const shoppingCart = await ShoppingCart.findById(
                 listOrder[i].idShoppingCart
             );
-            console.log(shoppingCart);
+            
             let sum = 0;
             listOrder[i].time = shoppingCart.purchasedTime;
             listOrder[i].listProductOrder = [];
